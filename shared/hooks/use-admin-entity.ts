@@ -106,9 +106,14 @@ export function useAdminEntity<T extends Record<string, unknown>>(
     queryKey: options.filters && Object.keys(options.filters).length > 0
       ? [...options.queryKey, options.filters]
       : options.queryKey,
-    queryFn: () => {
-      console.log('[useAdminEntity] filters passed to fetchItems:', options.filters);
-      return service.fetchItems(options.filters);
+    queryFn: async () => {
+      try {
+        const result = await service.fetchItems(options.filters as Record<string, string | number | undefined>);
+        return result;
+      } catch (error) {
+        console.error('[useAdminEntity] queryFn error:', error);
+        throw error;
+      }
     },
     refetchOnWindowFocus: true,
     refetchOnMount: true,
@@ -181,7 +186,7 @@ export function useAdminEntity<T extends Record<string, unknown>>(
   };
 }
 
-function wrapParentService<T extends Record<string, unknown>>(service: CrudService<T>, parentId?: string, filters?: Record<string, unknown>): CrudService<T> {
+function wrapParentService<T extends Record<string, unknown>>(service: CrudService<T>, parentId?: string, globalFilters?: Record<string, unknown>): CrudService<T> {
   function castFilters(input?: Record<string, unknown>): Record<string, string | number | undefined> | undefined {
     if (!input) return undefined;
     const result: Record<string, string | number | undefined> = {};
@@ -201,12 +206,19 @@ function wrapParentService<T extends Record<string, unknown>>(service: CrudServi
     return result;
   }
   return {
-    fetchItems: () => {
-      const castedFilters = castFilters(filters);
+    fetchItems: async (dynamicFilters?: Record<string, string | number | undefined>) => {
+      // Combine les filtres globaux et dynamiques
+      const castedGlobalFilters = castFilters(globalFilters);
+      const combinedFilters = { ...castedGlobalFilters, ...dynamicFilters };
+      
+      let result;
       if (parentId && service.fetchItems.length > 0) {
-        return service.fetchItems({ ...castedFilters, parentId });
+        result = await service.fetchItems({ ...combinedFilters, parentId });
+      } else {
+        result = await service.fetchItems(combinedFilters);
       }
-      return service.fetchItems(castedFilters);
+      
+      return result;
     },
     createItem: (data: T) => {
       if (parentId && service.createItem.length > 0) {

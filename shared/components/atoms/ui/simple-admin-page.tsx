@@ -7,7 +7,7 @@ import { Button } from '@/shared/components/atoms/ui/button';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/shared/components/atoms/ui/alert-dialog';
 import { DataTable } from '@/shared/components/molecules/datatable/data-table';
 import { DataTablePagination } from '@/shared/components/molecules/datatable/data-table-pagination';
-import { DynamicForm } from '@/shared/components/atoms/ui/dynamic-form';
+import { SmartDynamicForm } from '@/shared/components/atoms/ui/smart-dynamic-form';
 import { createDynamicColumns } from '@/shared/lib/admin/admin-generator';
 import { useAdminEntity } from '@/shared/hooks/use-admin-entity';
 import { Plus, EllipsisVertical } from 'lucide-react';
@@ -112,13 +112,13 @@ export function SimpleAdminPage<T extends Record<string, unknown>>({
   const pickFields = (data: Record<string, unknown>, fields: (string | number)[]) =>
     Object.fromEntries(fields.map((key: string | number) => [key, data[key]]));
 
-
+ 
   const filtersFromNuqs = {
-    search,
-    sortBy,
-    sortDir,
-    page,
-    pageSize,
+    ...(search && search.trim() ? { search: search.trim() } : {}),
+    ...(sortBy && sortBy.trim() ? { sortBy: sortBy.trim() } : {}),
+    ...(sortDir && sortDir !== 'asc' ? { sortDir } : {}),
+    ...(page && page !== 1 ? { page } : {}),
+    ...(pageSize && pageSize !== 10 ? { pageSize } : {}),
     ...(filters || {}),
     ...(
       config.parent &&
@@ -129,6 +129,9 @@ export function SimpleAdminPage<T extends Record<string, unknown>>({
         : {}
     ),
   };
+
+  console.log('[SimpleAdminPage] filtersFromNuqs:', filtersFromNuqs);
+
   const {
     data: items,
     meta,
@@ -356,6 +359,7 @@ export function SimpleAdminPage<T extends Record<string, unknown>>({
   const configWithBulk = config as AdminConfigWithBulkActions<T>;
 
   const itemsTyped = items as T[];
+
   const selectedIds = itemsTyped
     .filter((item) => rowSelection[(item as Record<string, unknown>).id as string])
     .map((item) => String((item as Record<string, unknown>).id));
@@ -445,7 +449,7 @@ export function SimpleAdminPage<T extends Record<string, unknown>>({
                     </SheetDescription>
                   </SheetHeader>
                   <div className="py-4">
-                    <DynamicForm
+                    <SmartDynamicForm
                       config={config}
                       schema={schema}
                       onCreate={handleCreate}
@@ -479,7 +483,7 @@ export function SimpleAdminPage<T extends Record<string, unknown>>({
                   getCanNextPage: () => meta ? (page ?? 1) < meta.totalPages : false,
                   previousPage: () => setPage(Math.max(1, (page ?? 1) - 1)),
                   nextPage: () => meta ? setPage(Math.min(meta.totalPages, (page ?? 1) + 1)) : undefined,
-                } as unknown as any}
+                } as unknown as Parameters<typeof DataTablePagination>[0]['table']}
               />
             </div>
           )}
@@ -516,7 +520,7 @@ export function SimpleAdminPage<T extends Record<string, unknown>>({
                   </SheetDescription>
                 </SheetHeader>
                 <div className="py-4">
-                  <DynamicForm
+                  <SmartDynamicForm
                     config={config}
                     schema={schema}
                     initialData={editingItem}

@@ -8,7 +8,18 @@
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
-    "generate:config": "node shared/scripts/generate-admin-entities.js"
+    "task:init": "node scripts/taskmaster.js init",
+    "task:generate": "node scripts/taskmaster.js generate-nextjs",
+    "task:validate": "node scripts/taskmaster.js validate",
+    "task:next": "node scripts/taskmaster.js next",
+    "task:status": "node scripts/taskmaster.js status",
+    "task:done": "node scripts/taskmaster.js done",
+    "task:show": "node scripts/taskmaster.js show",
+    "task:breakdown": "node scripts/taskmaster.js breakdown",
+    "task:complexity": "node scripts/taskmaster.js analyze-complexity",
+    "task:files": "node scripts/taskmaster.js generate-all-files",
+    "task:report": "node scripts/taskmaster.js progress-report",
+    "task:help": "node scripts/taskmaster.js copilot-help"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

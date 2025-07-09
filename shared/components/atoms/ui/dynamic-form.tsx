@@ -26,8 +26,9 @@ interface DynamicFormProps<T = Record<string, unknown>> {
   config: AdminConfig & {
     ui?: {
       form?: {
-        layout?: 'simple' | 'sections' | 'two-cols' | 'horizontal' | 'tabs';
+        layout?: 'simple' | 'sections' | 'two-cols' | 'horizontal' | 'tabs' | 'steps';
         sections?: { title: string; fields: string[] }[];
+        steps?: { title: string; description?: string; layout?: 'simple' | 'two-cols' | 'horizontal' | 'sections'; fields: string[] }[];
       };
     };
   };
