@@ -1072,7 +1072,7 @@ ls -la .taskmaster/
 
 ```bash
 # Générer un prompt Copilot optimisé pour Next.js
-npm run task:generate
+npm run task:generate-prd
 
 # 📋 ACTIONS SUITE À LA COMMANDE :
 # 1. Copiez le prompt généré dans GitHub Copilot Chat
