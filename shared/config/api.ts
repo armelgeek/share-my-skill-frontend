@@ -10,5 +10,13 @@ export const API_ENDPOINTS = {
     detail: (id: string) => `/api/v1/product/${id}`,
     update: (id: string) => `/api/v1/product/${id}`,
     delete: (id: string) => `/api/v1/product/${id}`
+  },
+  user: {
+    base: "/api/v1/user",
+    create: "/api/v1/user",
+    list: (qs: string = "") => `/api/v1/user${qs ? `?${qs}` : ""}`,
+    detail: (id: string) => `/api/v1/user/${id}`,
+    update: (id: string) => `/api/v1/user/${id}`,
+    delete: (id: string) => `/api/v1/user/${id}`
   }
 };
