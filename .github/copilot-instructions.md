@@ -1266,5 +1266,67 @@ npm run task:report
 ```
 
 **Cette approche garantit un démarrage de projet structuré, prévisible et optimisé dès le début.**
+# Copilot Instructions personnalisées pour granularité maximale des tâches
+
+- Pour toute génération de tâches ou de planification de projet, découpe chaque fonctionnalité, module, composant, page, hook, service, test, documentation, etc. en tâches très petites et atomiques (0.5h à 2h chacune).
+- Privilégie la granularité maximale : une tâche = une action concrète, livrable seule (ex : « Créer le schéma Zod de l’entité User », « Créer le composant InputEmail », « Écrire le test unitaire du service Auth », « Ajouter le champ avatar au formulaire de profil », etc.).
+- Structure les tâches par phase (setup, core, admin, ui, test, doc, etc.) et par dépendances logiques.
+- Pour chaque tâche, fournis : id, title, description, phase, dependencies (ids), estimate (en heures, 0.5 à 2).
+- Génère autant de tâches que nécessaire pour couvrir tout le PRD, même si cela fait 100 à 200 tâches ou plus.
+- N’inclus aucune tâche générique ou trop large : chaque tâche doit être actionnable et livrable seule.
+- Le résultat doit être un JSON valide, prêt à être utilisé dans `.taskmaster/tasks.json`.
+- Couvre tout le cycle de vie du projet : setup, backoffice (admin), front office (utilisateur), accessibilité, tests, documentation, etc.
+
+
+# TaskMaster : consignes pour la génération et la gestion des tâches
+- Accepte et gère les fichiers `tasks.json` très détaillés (meme 100 à 300 tâches ou plus).
+- Ne limite pas le nombre de tâches ni leur granularité.
+- Génère un fichier individuel par tâche lors de `npm run task:files`.
+- Suit l’avancement, les dépendances et la planification même pour des tâches très atomiques.
+- Permet une gestion fine du projet, du setup à la documentation, en passant par le front et le back.
 
 ---
+
+# Pour chaque fichier de tâche généré (`task_xxx.txt`), structure systématiquement les sections suivantes :
+
+- `# Implementation Details:`
+  - Détaille les étapes concrètes de l’implémentation (imports, fichiers, snippets, conventions, etc.)
+- `# Test Strategy:`
+  - Décris la stratégie de test (unitaires, typage, e2e, cas d’erreur, etc.)
+- `# Subtasks:`
+  - Liste les sous-tâches actionnables (checklist)
+
+> Ces sections doivent être automatiquement remplies pour chaque tâche générée lors de `npm run task:files`.
+> Exige que Copilot propose des exemples de code, des snippets, des cas de test, et une checklist pour chaque tâche, même la plus petite.
+
+# Exemple de structure de fichier de tâche enrichi
+
+```
+# Task ID: 4
+# Title: Créer le type TypeScript User
+# ...
+# Implementation Details:
+- Importer le schéma Zod `userSchema` depuis `features/user/user.schema.ts`.
+- Définir le type TypeScript `User` avec :
+  ```ts
+  export type User = z.infer<typeof userSchema>;
+  ```
+- Exporter ce type dans le même fichier que le schéma.
+
+# Test Strategy:
+- Vérifier que le type `User` correspond bien à la structure du schéma Zod.
+- Ajouter un test de typage simple (ex : assigner un objet conforme et un objet non conforme).
+
+# Subtasks:
+- [ ] Importer le schéma Zod
+- [ ] Définir le type TypeScript User
+- [ ] Exporter le type
+- [ ] Vérifier la correspondance type/schéma
+```
+
+# TaskMaster : consignes pour la génération et la gestion des tâches
+- Accepte et gère les fichiers `tasks.json` très détaillés (100 à 300 tâches ou plus).
+- Ne limite pas le nombre de tâches ni leur granularité.
+- Génère un fichier individuel par tâche lors de `npm run task:files`.
+- Pour chaque fichier de tâche, structure systématiquement les sections Implementation Details, Test Strategy, Subtasks.
+- Permet une gestion fine du projet, du setup à la documentation, en passant par le front et le back.
