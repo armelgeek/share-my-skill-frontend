@@ -54,14 +54,13 @@ export function getSidebarNavItems(): NavItem[] {
     .sort((a, b) => (a.menuOrder ?? 999) - (b.menuOrder ?? 999))
     .map(entity => {
       const config = entity.config as { title?: string; description?: string; icon?: string };
-      // Si l'icône est un emoji, on le met dans label, sinon dans icon (clé Icons)
       const isEmoji = typeof config.icon === 'string' && config.icon.length <= 3;
       return {
         title: config.title || entity.path,
         url: entity.href,
         icon: !isEmoji ? (config.icon as keyof typeof Icons) : undefined,
-        label: isEmoji ? config.icon : undefined,
-        description: config.description,
+        label: isEmoji ? (config.icon || '') : '',
+        description: config.description || '',
         items: [],
       };
     });
