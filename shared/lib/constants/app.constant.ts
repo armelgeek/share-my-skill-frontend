@@ -63,7 +63,17 @@ export function getSidebarNavItems(): NavItem[] {
         description: config.description || '',
         items: [],
       };
-    });
+    })
+    .concat([
+      {
+        title: 'Groupes',
+        label: 'Groupes',
+        icon: 'user2',
+        url: '/admin/groupe',
+        description: 'Gérez vos groupes',
+        items: [],
+      }
+    ]);
 }
 
 export { kAppName, kAppAbbr, kAppTagline, kAppDescription };
