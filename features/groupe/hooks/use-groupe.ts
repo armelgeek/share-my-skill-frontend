@@ -4,6 +4,6 @@ import { groupeService } from '../groupe.service';
 export function useGroupe() {
   return useQuery({
     queryKey: ['groupes'],
-    queryFn: () => groupeService.list(),
+    queryFn: () => groupeService.list({}),
   });
 }
