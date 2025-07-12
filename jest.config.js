@@ -6,9 +6,13 @@ module.exports = {
   transform: {
     '^.+\\.(ts|tsx)$': 'ts-jest',
   },
-  globals: {
-    'ts-jest': {
-      tsconfig: 'tsconfig.json',
-    },
+  moduleNameMapper: {
+    '^@/(.*)$': '<rootDir>/$1',
+    '^@/shared/components/atoms/ui/badge$': '<rootDir>/__mocks__/badgeMock.js',
+    '^@/shared/components/atoms/ui/icons$': '<rootDir>/__mocks__/iconsMock.js',
   },
+  transformIgnorePatterns: [
+    '/node_modules/',
+    '<rootDir>/shared/components/atoms/ui/.*',
+  ],
 };

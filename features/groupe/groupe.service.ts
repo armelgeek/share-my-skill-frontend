@@ -1,4 +1,4 @@
-import BaseService from '@/shared/lib/services/base-service';
+import { AdminCrudService } from '@/shared/lib/admin/admin-generator';
 import { API_ENDPOINTS } from '@/shared/config/api';
 
-export const groupeService = new BaseService(API_ENDPOINTS.groupe.base);
+export const groupeService = new AdminCrudService(API_ENDPOINTS.groupe.base);
