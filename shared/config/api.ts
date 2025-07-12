@@ -34,5 +34,21 @@ export const API_ENDPOINTS = {
     detail: (id: string) => `/api/v1/groupe/${id}`,
     update: (id: string) => `/api/v1/groupe/${id}`,
     delete: (id: string) => `/api/v1/groupe/${id}`
+  },
+  message: {
+    base: "/api/v1/message",
+    create: "/api/v1/message",
+    list: (qs: string = "") => `/api/v1/message${qs ? `?${qs}` : ""}`,
+    detail: (id: string) => `/api/v1/message/${id}`,
+    update: (id: string) => `/api/v1/message/${id}`,
+    delete: (id: string) => `/api/v1/message/${id}`
+  },
+  ressource: {
+    base: "/api/v1/ressource",
+    create: "/api/v1/ressource",
+    list: (qs: string = "") => `/api/v1/ressource${qs ? `?${qs}` : ""}`,
+    detail: (id: string) => `/api/v1/ressource/${id}`,
+    update: (id: string) => `/api/v1/ressource/${id}`,
+    delete: (id: string) => `/api/v1/ressource/${id}`
   }
 };
