@@ -6,3 +6,5 @@ export const groupeSchema = z.object({
   membres: z.array(z.string()).optional(),
   // autres champs…
 });
+
+export type Groupe = z.infer<typeof groupeSchema>;
