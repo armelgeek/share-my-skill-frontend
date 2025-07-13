@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 export const atelierSchema = z.object({
+  id: z.string(),
   titre: z.string().min(1, 'Le titre est requis'),
   description: z.string().optional(),
   date: z.string(),

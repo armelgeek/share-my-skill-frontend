@@ -1,17 +1,20 @@
 "use client";
-
 import { useParams } from 'next/navigation';
 import { useGroupe } from '@/features/groupe/hooks/use-groupe';
 import { Skeleton } from '@/shared/components/atoms/ui/skeleton';
 import { Card } from '@/shared/components/atoms/ui/card';
 import { Button } from '@/shared/components/atoms/ui/button';
 import { Input } from '@/shared/components/atoms/ui/input';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useMessage } from '@/features/message/hooks/use-message';
 import { useRessource } from '@/features/ressource/hooks/use-ressource';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { JoinGroupButton } from './JoinGroupButton';
+import Link from 'next/link';
+import { Avatar, AvatarFallback, AvatarImage } from '@/shared/components/atoms/ui/avatar';
+import { toast } from 'react-hot-toast';
 
 const messageSchema = z.object({
   contenu: z.string().min(1, 'Le message est requis'),
@@ -22,13 +25,15 @@ type MessageForm = z.infer<typeof messageSchema>;
 export default function GroupeDetailPage() {
   const { id } = useParams();
   const { data, isLoading, error } = useGroupe();
-  const groupe = Array.isArray(data) ? data.find(g => g.id === id) : data;
+   const groupe = data ? data.data.find(g => g.id === id) : data;
 
   const { data: allMessages, isLoading: loadingMessages } = useMessage();
-  const messages = Array.isArray(allMessages) ? allMessages.filter(m => m.groupeId === id) : [];
+  const messages = allMessages ? allMessages.data : [];
+ // const messages = allMessages ? allMessages.data.filter(m => m.groupe === id) : [];
 
   const { data: allRessources, isLoading: loadingRessources } = useRessource();
-  const ressources = Array.isArray(allRessources) ? allRessources.filter(r => r.groupeId === id) : [];
+  const ressources = allRessources ? allRessources.data : [];
+  //const ressources = allRessources ? allRessources.data.filter(r => r.auteur === id) : [];
 
   const [sending, setSending] = useState(false);
   const { register, handleSubmit, reset, formState } = useForm<MessageForm>({
@@ -43,6 +48,14 @@ export default function GroupeDetailPage() {
     setSending(false);
   };
 
+  // Ajout du feedback global pour les actions groupe
+  useEffect(() => {
+    // On suppose que le composant JoinGroupButton met à jour le feedback via setFeedback
+    // Ici, on peut écouter le feedback global si besoin
+    // Exemple : toast.success('Action réussie') ou toast.error('Erreur')
+    // À brancher sur les mutations si besoin
+  }, []);
+
   if (isLoading) {
     return <Skeleton className="h-96 w-full" />;
   }
@@ -53,23 +66,44 @@ export default function GroupeDetailPage() {
 
   return (
     <div className="max-w-3xl mx-auto py-8 px-4">
+      <div className="mb-4">
+        <Link href="/groupes" aria-label="Retour à la liste des groupes">
+          <button className="inline-flex items-center gap-2 px-3 py-1 rounded bg-muted hover:bg-primary/10 text-sm font-medium focus:outline-none focus-visible:ring focus-visible:ring-primary">
+            ← Retour
+          </button>
+        </Link>
+      </div>
       <Card className="p-6 mb-6">
         <h1 className="text-2xl font-bold mb-2">{groupe.nom}</h1>
-        <p className="text-muted-foreground mb-2">Thème : {groupe.theme}</p>
+        {/* <p className="text-muted-foreground mb-2">Thème : {groupe.theme}</p> */}
         <p className="mb-2">{groupe.description}</p>
-        <div className="text-sm text-muted-foreground mb-2">Membres : {groupe.nbMembres}</div>
+        <div className="text-sm text-muted-foreground mb-2">Membres : {Array.isArray(groupe.membres) ? groupe.membres.length : 0}</div>
+        {/* Bouton rejoindre le groupe */}
+        <JoinGroupButton groupe={groupe} />
         {/* Liste des membres */}
         <div className="mt-4">
           <h2 className="text-lg font-semibold mb-2">Membres</h2>
           <div className="flex flex-wrap gap-4">
             {Array.isArray(groupe.membres) && groupe.membres.length > 0 ? (
-              (groupe.membres as Array<{ nom: string; role: string }> | undefined)?.map((membre: { nom: string; role: string }, idx: number) => (
-                <div key={idx} className="flex items-center gap-2">
-                  {/* Avatar à ajouter si disponible */}
-                  <span className="font-medium">{membre.nom}</span>
-                  <span className="text-xs text-muted-foreground">{membre.role}</span>
-                </div>
-              ))
+              (groupe.membres as Array<any>).map((membre: any, idx: number) => {
+                // If membre is a string, convert to object with default role
+                const membreObj: { nom: string; role: string; avatarUrl?: string } =
+                  typeof membre === 'string'
+                    ? { nom: membre, role: 'Membre' }
+                    : membre;
+                return (
+                  <div key={idx} className="flex items-center gap-2">
+                    <Avatar className="w-8 h-8">
+                      {membreObj.avatarUrl ? (
+                        <AvatarImage src={membreObj.avatarUrl} alt={membreObj.nom} />
+                      ) : null}
+                      <AvatarFallback>{membreObj.nom?.charAt(0) || '?'}</AvatarFallback>
+                    </Avatar>
+                    <span className="font-medium">{membreObj.nom}</span>
+                    <span className="text-xs text-muted-foreground">{membreObj.role}</span>
+                  </div>
+                );
+              })
             ) : (
               <span className="text-muted-foreground">Aucun membre</span>
             )}

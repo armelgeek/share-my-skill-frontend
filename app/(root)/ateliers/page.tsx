@@ -5,6 +5,7 @@ import { Skeleton } from '@/shared/components/atoms/ui/skeleton';
 import { Card } from '@/shared/components/atoms/ui/card';
 import { Input } from '@/shared/components/atoms/ui/input';
 import { useState, useMemo } from 'react';
+import Link from 'next/link';
 
 export default function AteliersCataloguePage() {
   const [search, setSearch] = useState('');
@@ -44,12 +45,14 @@ export default function AteliersCataloguePage() {
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {filteredAteliers.map((atelier, idx) => (
-          <Card key={idx} className="p-4 flex flex-col h-full" aria-label={`Atelier ${atelier.titre}`}> 
-            <h2 className="text-lg font-semibold mb-2">{atelier.titre}</h2>
-            <p className="text-sm text-muted-foreground mb-2">{atelier.animateur}</p>
-            <p className="text-sm mb-4">{atelier.description}</p>
-            <div className="mt-auto text-xs text-muted-foreground">{atelier.date}</div>
-          </Card>
+          <Link key={atelier.id} href={`/ateliers/${atelier.id}`} passHref legacyBehavior>
+            <Card className="p-4 flex flex-col h-full cursor-pointer hover:shadow-lg transition" aria-label={`Atelier ${atelier.titre}`}> 
+              <h2 className="text-lg font-semibold mb-2">{atelier.titre}</h2>
+              <p className="text-sm text-muted-foreground mb-2">{atelier.animateur}</p>
+              <p className="text-sm mb-4">{atelier.description}</p>
+              <div className="mt-auto text-xs text-muted-foreground">{atelier.date}</div>
+            </Card>
+          </Link>
         ))}
       </div>
       {/* Pagination à ajouter si besoin, selon le service */}
