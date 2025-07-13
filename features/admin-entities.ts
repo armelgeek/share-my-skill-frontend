@@ -4,6 +4,7 @@ import { RessourceAdminConfig } from './ressource/ressource.admin-config';
 import { BadgeAdminConfig } from './badge/badge.admin-config';
 import { CommentaireAdminConfig } from './commentaire/commentaire.admin-config';
 import { EvenementAdminConfig } from './evenement/evenement.admin-config';
+import { FormationAdminConfig } from './formation/formation.admin-config';
 export const adminEntities = [
   {
     path: 'atelier',
@@ -40,6 +41,12 @@ export const adminEntities = [
     href: '/admin/evenement',
     config: EvenementAdminConfig,
     menuOrder: 7,
+  },
+  {
+    path: 'formation',
+    href: '/admin/formation',
+    config: FormationAdminConfig,
+    menuOrder: 8,
   },
   // ...autres entités admin
 ];
