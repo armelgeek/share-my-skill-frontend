@@ -6,8 +6,10 @@ export const badgeService = createEnhancedMockService<Badge>(
   () => ({
     nom: mockDataGenerators.name() as string,
     description: mockDataGenerators.description() as string,
-    couleur: mockDataGenerators.category() as string,
+    couleur: 'obtained' as 'obtained' | 'in-progress',
     icone: 'star',
+    dateObtention: mockDataGenerators.date(30) as string,
+    criteres: mockDataGenerators.description() as string,
   }),
   50
 );

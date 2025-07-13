@@ -1,1 +1,3 @@
-module.exports = {};
+module.exports = {
+  dashboard: () => <div>Dashboard Icon</div>,
+};

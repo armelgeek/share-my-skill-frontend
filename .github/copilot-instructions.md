@@ -1289,6 +1289,14 @@ npm run task:report
 
 # Pour chaque fichier de tâche généré (`task_xxx.txt`), structure systématiquement les sections suivantes :
 
+---
+
+## 🚦 Consigne d'enchaînement automatique des tâches
+
+Pour toute séquence de tâches (ex : TaskMaster, batch de tâches), enchaîne automatiquement chaque tâche sans demander de validation intermédiaire ni confirmation utilisateur. Ne t’arrête qu’une fois toutes les tâches de la séquence sont terminées ou en cas d’erreur bloquante.
+
+---
+
 - `# Implementation Details:`
   - Détaille les étapes concrètes de l’implémentation (imports, fichiers, snippets, conventions, etc.)
 - `# Test Strategy:`
@@ -1330,3 +1338,5 @@ npm run task:report
 - Génère un fichier individuel par tâche lors de `npm run task:files`.
 - Pour chaque fichier de tâche, structure systématiquement les sections Implementation Details, Test Strategy, Subtasks.
 - Permet une gestion fine du projet, du setup à la documentation, en passant par le front et le back.
+
+Pour toute séquence de tâches (ex : TaskMaster, batch de tâches), enchaîne automatiquement chaque tâche sans demander de validation intermédiaire ni confirmation utilisateur. Ne t’arrête qu’une fois toutes les tâches de la séquence sont terminées ou en cas d’erreur bloquante.

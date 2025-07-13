@@ -1,9 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
-import { groupeService } from '../groupe.service';
-
+import { groupeService } from '../groupe.mock';
 export function useGroupe() {
   return useQuery({
     queryKey: ['groupes'],
-    queryFn: () => groupeService.list({}),
+    queryFn: () => groupeService.fetchItems({}),
   });
 }
