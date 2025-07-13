@@ -68,4 +68,13 @@ export const API_ENDPOINTS = {
     update: (id: string) => `/api/v1/commentaire/${id}`,
     delete: (id: string) => `/api/v1/commentaire/${id}`
   }
+  ,
+  evenement: {
+    base: "/api/v1/evenement",
+    create: "/api/v1/evenement",
+    list: (qs: string = "") => `/api/v1/evenement${qs ? `?${qs}` : ""}`,
+    detail: (id: string) => `/api/v1/evenement/${id}`,
+    update: (id: string) => `/api/v1/evenement/${id}`,
+    delete: (id: string) => `/api/v1/evenement/${id}`
+  }
 };
