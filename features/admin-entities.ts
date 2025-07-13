@@ -3,6 +3,7 @@ import { MessageAdminConfig } from './message/message.admin-config';
 import { RessourceAdminConfig } from './ressource/ressource.admin-config';
 import { BadgeAdminConfig } from './badge/badge.admin-config';
 import { CommentaireAdminConfig } from './commentaire/commentaire.admin-config';
+import { EvenementAdminConfig } from './evenement/evenement.admin-config';
 export const adminEntities = [
   {
     path: 'atelier',
@@ -33,6 +34,12 @@ export const adminEntities = [
     href: '/admin/commentaire',
     config: CommentaireAdminConfig,
     menuOrder: 6,
+  },
+  {
+    path: 'evenement',
+    href: '/admin/evenement',
+    config: EvenementAdminConfig,
+    menuOrder: 7,
   },
   // ...autres entités admin
 ];
