@@ -50,5 +50,13 @@ export const API_ENDPOINTS = {
     detail: (id: string) => `/api/v1/ressource/${id}`,
     update: (id: string) => `/api/v1/ressource/${id}`,
     delete: (id: string) => `/api/v1/ressource/${id}`
+  },
+  badge: {
+    base: "/api/v1/badge",
+    create: "/api/v1/badge",
+    list: (qs: string = "") => `/api/v1/badge${qs ? `?${qs}` : ""}`,
+    detail: (id: string) => `/api/v1/badge/${id}`,
+    update: (id: string) => `/api/v1/badge/${id}`,
+    delete: (id: string) => `/api/v1/badge/${id}`
   }
 };
