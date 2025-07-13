@@ -77,4 +77,13 @@ export const API_ENDPOINTS = {
     update: (id: string) => `/api/v1/evenement/${id}`,
     delete: (id: string) => `/api/v1/evenement/${id}`
   }
+  ,
+  formation: {
+    base: "/api/v1/formation",
+    create: "/api/v1/formation",
+    list: (qs: string = "") => `/api/v1/formation${qs ? `?${qs}` : ""}`,
+    detail: (id: string) => `/api/v1/formation/${id}`,
+    update: (id: string) => `/api/v1/formation/${id}`,
+    delete: (id: string) => `/api/v1/formation/${id}`
+  }
 };
